@@ -1,2 +1,0 @@
-
-git.filter '^SPECS/dkms-rtlwifi_new.spec|SOURCES/001-Rename-modules-to-name_new.patch|SOURCES/002-Use-rtlwifi_new-as-firmware-dir.patch|SOURCES/003-Build-for-the-right-kernel.patch|SOURCES/rtlwifi_new-7a1b37d.tar.gz$'

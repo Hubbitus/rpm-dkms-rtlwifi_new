@@ -1,0 +1,1 @@
+koji build --scratch f24 dkms-rtlwifi_new-0.1-5.git.7a1b37d.fc24.src.rpm
