@@ -1,29 +1,31 @@
-%global commit0 063fd021c33ef668de945f29fdf2e52e256206eb
+%global commit0 7a1b37d2121e8ab1457f002b2729fc23e6ff3e10
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-%define _enable_debug_packages	%{nil}
-%define debug_package	%{nil}
+%global shortname rtlwifi_new
 
-Summary:	Collection of drivers for WiFi adapters by Realtek
-Name:	rtlwifi_new
-Version:	0.1
-Release:	5.git.%{shortcommit0}%{?dist}
-Source0:	https://github.com/lwfinger/rtlwifi_new/archive/%{commit0}.tar.gz#/rtlwifi_new-%{shortcommit0}.tar.gz
-Source1:	rtlwifi_new.conf
-License:	GPLv2
-Group:	System Environment/Kernel
-URL:		https://github.com/lwfinger/rtlwifi_new
-Requires(post):	dkms
-Requires(preun):	dkms
-Requires: kernel-devel
+%define _enable_debug_packages %{nil}
+%define debug_package %{nil}
+
+Summary:         Collection of drivers for WiFi adapters by Realtek
+Name:            dkms-%{shortname}
+Version:         0.1
+Release:         5.git.%{shortcommit0}%{?dist}
+Source0:         https://github.com/lwfinger/rtlwifi_new/archive/%{commit0}.tar.gz#/rtlwifi_new-%{shortcommit0}.tar.gz
+Source1:         rtlwifi_new.conf
+License:         GPLv2
+Group:           System Environment/Kernel
+URL:             https://github.com/lwfinger/rtlwifi_new
+Requires(post):  dkms
+Requires(preun): dkms
+Requires:        kernel-devel
 
 # Rename the modules to avoid conflicts with the modules provided by the
 # kernel packages. Change the path to firmware for that purpose as well.
-Patch1:		001-Rename-modules-to-name_new.patch
-Patch2:		002-Use-rtlwifi_new-as-firmware-dir.patch
+Patch1:        001-Rename-modules-to-name_new.patch
+Patch2:        002-Use-rtlwifi_new-as-firmware-dir.patch
 # By default, the modules are built for the current kernel but we want them
 # for the kernel that dkms specifies in KERNELRELEASE variable.
-Patch3:		003-Build-for-the-right-kernel.patch
+Patch3:        003-Build-for-the-right-kernel.patch
 
 %description
 This package contains the following drivers for the WiFi adapters by Realtek:
@@ -32,7 +34,7 @@ and rtl8821ae as well as the common modules they need. The respective
 modules provided with the kernel will be blacklisted to avoid conflicts.
 
 %prep
-%setup -qn %{name}-%{commit0}
+%setup -qn %{shortname}-%{commit0}
 
 %patch1 -p1
 %patch2 -p1
@@ -44,20 +46,20 @@ modules provided with the kernel will be blacklisted to avoid conflicts.
 # sources to be used by DKMS
 mkdir -p %{buildroot}%{_usr}/src/%{name}-%{version}-%{release}
 for subdir in \
-	btcoexist \
-	rtl8188ee \
-	rtl8192c \
-	rtl8192ce \
-	rtl8192cu \
-	rtl8192de \
-	rtl8192ee \
-	rtl8192se \
-	rtl8723ae \
-	rtl8723be \
-	rtl8821ae; do
-	mkdir -p %{buildroot}%{_usr}/src/%{name}-%{version}-%{release}/$subdir
-	install -m644 $subdir/*.c $subdir/*.h $subdir/Makefile \
-		%{buildroot}%{_usr}/src/%{name}-%{version}-%{release}/$subdir
+  btcoexist \
+  rtl8188ee \
+  rtl8192c \
+  rtl8192ce \
+  rtl8192cu \
+  rtl8192de \
+  rtl8192ee \
+  rtl8192se \
+  rtl8723ae \
+  rtl8723be \
+  rtl8821ae; do
+    mkdir -p %{buildroot}%{_usr}/src/%{name}-%{version}-%{release}/$subdir
+    install -m644 $subdir/*.c $subdir/*.h $subdir/Makefile \
+      %{buildroot}%{_usr}/src/%{name}-%{version}-%{release}/$subdir
 done
 
 install -m644 *.c *.h Makefile \
@@ -134,7 +136,12 @@ EOF
 %config(noreplace) /etc/modprobe.d/rtlwifi_new.conf
 
 %changelog
-* Thu Aug 20 2015 Pavel Alexeev <Pahan@Hubbitus.info> - 0.1-4.063fd02
+* Tue Sep 13 2016 Pavel Alexeev <Pahan@Hubbitus.info> - 0.1-5.git.7a1b37d
+- Update to 7a1b37d2121e8ab1457f002b2729fc23e6ff3e10.
+- Build for Fedora 24.
+- Adopt patch3 003-Build-for-the-right-kernel.patch
+
+* Thu Aug 20 2015 Pavel Alexeev <Pahan@Hubbitus.info> - 0.1-4.git.063fd02
 - Add requires kernel-devel
 
 * Tue Aug 18 2015 Pavel Alexeev <Pahan@Hubbitus.info> - 0.1-4.063fd02

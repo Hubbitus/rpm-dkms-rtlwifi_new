@@ -1,12 +1,10 @@
-diff --git a/Makefile b/Makefile
-index 68b848a..c38c5fd 100644
---- a/Makefile
-+++ b/Makefile
+--- a/Makefile	2016-09-14 00:33:50.252013500 +0300
++++ b/Makefile	2016-09-14 00:34:46.038183502 +0300
 @@ -1,6 +1,6 @@
  SHELL := /bin/sh
  CC = gcc
--KVER  := $(shell uname -r)
+-KVER  ?= $(shell uname -r)
 +KVER  := $(KERNELRELEASE)
  KSRC := /lib/modules/$(KVER)/build
- MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/rtlwifi
  FIRMWAREDIR := /lib/firmware/
+ PWD := $(shell pwd)
